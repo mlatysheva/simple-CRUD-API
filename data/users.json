@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "username": "maria",
+    "age": 44,
+    "hobbies": ["drawing", "snowboard"]
+  },
+  {
+    "id": "2",
+    "username": "yury",
+    "age": 50,
+    "hobbies": ["art", "snowboard", "yachting"]
+  },
+  {
+    "id": "3",
+    "username": "polina",
+    "age": 12,
+    "hobbies": ["drawing", "skiing", "gymnastics", "reading"]
+  },
+  {
+    "id": "4",
+    "username": "alex",
+    "age": 8,
+    "hobbies": ["judo", "skiing", "lego"]
+  }
+]
