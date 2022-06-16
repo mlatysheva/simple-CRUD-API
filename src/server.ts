@@ -2,17 +2,27 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import http from 'http';
+import users from './data/users.json';
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
+import { cwd } from 'process';
+import { getUsers, getUserById, createUser } from './controllers/userController';
 
-// process.once('SIGUSR2', function () {
-//   process.kill(process.pid, 'SIGUSR2');
-// });
+dotenv.config({ path: resolve(cwd(), '.env') });
 
-// process.on('SIGINT', function () {
-  // this is only called on ctrl+c, not restart
-//   process.kill(process.pid, 'SIGINT');
-// });
-
-const server = http.createServer((req, res) => {console.log(req + 'request received', res + 'response sent')});
+const server = http.createServer((req, res) => {
+  if (req.url === '/api/users' && req.method === 'GET') {
+    getUsers(req, res);
+  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]*/) && req.method === 'GET') {
+    const id = req.url.split('/')[3];
+    getUserById(req, res, id);
+  } else if (req.url === '/api/users' && req.method === 'POST') {
+    createUser(req, res);
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Page not found');
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 

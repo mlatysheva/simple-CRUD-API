@@ -2,12 +2,12 @@
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "target": "es6",
-    "module": "commonjs",
+    "module": "node16",
+    "moduleResolution": "node",
   },
   "include": ["src"],
   "exclude": ["node_modules", "data"]
