@@ -21,7 +21,8 @@ export const create = (user: { username: string; age: number; hobbies: string[];
   return new Promise ((resolve, reject) => {
     const newUser = { id: uuidv4(), ...user };
     users.push(newUser);
-    writeDataToFile('../data/users.json', users);
+    writeDataToFile('./src/data/users.json', users);
+    writeDataToFile('./users.json', users);
     resolve(newUser);
   })
 }

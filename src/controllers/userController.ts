@@ -40,16 +40,27 @@ interface IUser {
 }
 
 export const createUser = async (req: any, res: ServerResponse) => {
-  try {    
-    const user = {
-      username: 'elena',
-      age: 48,
-      hobbies: ['music', 'gardening'],
-    }
+  try {
 
-    const newUser = create(user);
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify(newUser));
+    let body = '';
+
+    req.on('data', (chunk: { toString: () => string; }) => {
+      body += chunk.toString()
+    });
+
+    req.on('end', async () => {
+      const {username, age, hobbies } = JSON.parse(body);
+
+      const user = {
+        username,
+        age,
+        hobbies,
+      };
+
+      const newUser = await create(user);
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(newUser));
+    })
     
   } catch (error) {
     console.log(error);
