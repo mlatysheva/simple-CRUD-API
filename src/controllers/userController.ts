@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { create, findAllUsers, findUserById, update } from '../models/userModel';
+import { create, findAllUsers, findUserById, update, remove } from '../models/userModel';
 import { v4 as uuidv4 } from 'uuid';
 import { getPostData } from '../utils/getPostData';
 
@@ -84,6 +84,24 @@ export const updateUser = async (req: any, res: ServerResponse, id: string) => {
 
       res.writeHead(200 , { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(updUser));
+    }
+  } catch (error) {
+    console.log(error); 
+  }
+}
+
+export const deleteUser = async (req: any, res: ServerResponse, id: string) => {
+  try {
+    const user = await findUserById(id) as IUser;
+    if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
+    } else {
+
+      await remove(id);
+
+      res.writeHead(200 , { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ message: `User ${id} removed.` }));
     }
   } catch (error) {
     console.log(error); 
