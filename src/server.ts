@@ -6,7 +6,7 @@ import users from './data/users.json';
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import { cwd } from 'process';
-import { getUsers, getUserById, createUser } from './controllers/userController';
+import { getUsers, getUserById, createUser, updateUser } from './controllers/userController';
 
 dotenv.config({ path: resolve(cwd(), '.env') });
 
@@ -18,6 +18,9 @@ const server = http.createServer((req, res) => {
     getUserById(req, res, id);
   } else if (req.url === '/api/users' && req.method === 'POST') {
     createUser(req, res);
+  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]*/) && req.method === 'PUT') {
+    const id = req.url.split('/')[3];
+    updateUser(req, res, id);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Page not found');

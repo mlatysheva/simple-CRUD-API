@@ -26,3 +26,13 @@ export const create = (user: { username: string; age: number; hobbies: string[];
     resolve(newUser);
   })
 }
+
+export const update = (id: string, user: { username: string; age: number; hobbies: string[]; }) => {
+  return new Promise ((resolve, reject) => {
+    const index = users.findIndex((user) => {
+      user.id === id});
+      users[index] = { id, ...user};
+      writeDataToFile('./users.json', users);
+      resolve(users[index]);
+    })
+}

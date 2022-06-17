@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { create, findAllUsers, findUserById } from '../models/userModel';
+import { create, findAllUsers, findUserById, update } from '../models/userModel';
 import { v4 as uuidv4 } from 'uuid';
+import { getPostData } from '../utils/getPostData';
 
 // @route   GET api/users
 
@@ -34,6 +35,7 @@ export const getUserById = async (req: IncomingMessage, res: ServerResponse, id:
 // @route   POST api/users
 
 interface IUser {
+  id?: string,
   username: string;
   age: number;
   hobbies: string[];
@@ -41,28 +43,49 @@ interface IUser {
 
 export const createUser = async (req: any, res: ServerResponse) => {
   try {
+    const body = await getPostData(req);
 
-    let body = '';
+    const { username, age, hobbies } = JSON.parse(body as string);
 
-    req.on('data', (chunk: { toString: () => string; }) => {
-      body += chunk.toString()
-    });
+    const user = {
+      username,
+      age,
+      hobbies,
+    }; 
 
-    req.on('end', async () => {
-      const {username, age, hobbies } = JSON.parse(body);
+    const newUser = await create(user);
 
-      const user = {
-        username,
-        age,
-        hobbies,
-      };
+    res.writeHead(201, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify(newUser));
 
-      const newUser = await create(user);
-      res.writeHead(201, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify(newUser));
-    })
-    
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const updateUser = async (req: any, res: ServerResponse, id: string) => {
+  try {
+    const user = await findUserById(id) as IUser;
+    if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
+    } else {
+      const body = await getPostData(req);
+
+      const { username, age, hobbies } = JSON.parse(body as string);
+
+      const userData = {
+        username: username  || user.username,
+        age: age || user.age,
+        hobbies: hobbies || user.hobbies,
+      }; 
+
+      const updUser = await update(id, userData);
+
+      res.writeHead(200 , { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(updUser));
+    }
+  } catch (error) {
+    console.log(error); 
   }
 }
