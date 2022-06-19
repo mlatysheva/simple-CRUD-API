@@ -1,12 +1,15 @@
 # Simple CRUD API
 
-## Description
+## Description and Installation Guide
 
-This is a simple CRUD API using in-memory database underneath.
+- This is a simple CRUD API using in-memory database underneath.
+- To run the application, clone the repo to your local machine and run `npm i` to install all necessary dependencies.
+- After the installation, run `npm run start:dev` to run the app in the development mode.
+- After the installation, run `npm run start:prod` to generate the production bundle and run the app in the production mode.
 
 ## Technical requirements
 
-- Task is implemented on Javascript or Typescript
+- Task is implemented with Typescript
 - Only `nodemon`, `dotenv`, `cross-env`, `typescript`, `ts-node`, `eslint` and its plugins, `webpack` and its plugins, `prettier`, `uuid`, `@types/*` as well as libraries used for testing were used
 - 16 LTS version of Node.js was used
 - Asynchronous API was preferred whenever possible
@@ -14,29 +17,29 @@ This is a simple CRUD API using in-memory database underneath.
 ## Implementation details
 
 1. Implemented endpoint `api/users`:
-    - **GET** `api/users` is used to get all persons
+    - **GET** `api/users` is used to get all users
         - Server answers with `status code` **200** and all users records
     - **GET** `api/users/${userId}` 
-        - Server answers with `status code` **200** and and record with `id === userId` if it exists
+        - Server answers with `status code` **200** and record with `id === userId` if it exists
         - Server answers with `status code` **400** and corresponding message if `userId` is invalid (not `uuid`)
         - Server answers with `status code` **404** and corresponding message if record with `id === userId` doesn't exist
-    - **POST** `api/users` is used to create record about new user and store it in database
-        - Server answers with `status code` **201** and newly created record
+    - **POST** `api/users` is used to create record about a new user and store it in the database
+        - Server answers with `status code` **201** and the newly created record
         - Server answers with `status code` **400** and corresponding message if request `body` does not contain **required** fields
-    - **PUT** `api/users/{userId}` is used to update existing user
-        - Server answers with` status code` **200** and updated record
-        - Server answers with` status code` **400** and corresponding message if `userId` is invalid (not `uuid`)
-        - Server answers with` status code` **404** and corresponding message if record with `id === userId` doesn't exist
+    - **PUT** `api/users/{userId}` is used to update an existing user
+        - Server answers with` status code` **200** and the updated record
+        - Server answers with` status code` **400** and a corresponding message if `userId` is invalid (not `uuid`)
+        - Server answers with` status code` **404** and a corresponding message if record with `id === userId` doesn't exist
     - **DELETE** `api/users/${userId}` is used to delete existing user from database
         - Server answers with `status code` **204** if the record is found and deleted
         - Server answers with `status code` **400** and corresponding message if `userId` is invalid (not `uuid`)
         - Server answers with `status code` **404** and corresponding message if record with `id === userId` doesn't exist
 2. Users are stored as `objects` that have the following properties:
-    - `id` — unique identifier (`string`, `uuid`) generated on server side
+    - `id` — unique identifier (`string`, `uuid`) generated on the server side
     - `username` — user's name (`string`, **required**)
     - `age` — user's age (`number`, **required**)
     - `hobbies` — user's hobbies (`array` of `strings` or empty `array`, **required**)
-3. Requests to non-existing endpoints (e.g. `some-non/existing/resource`) are handled (server answers with `status code` **404** and corresponding human-friendly message)
+3. Requests to non-existing endpoints (e.g. `some-non/existing/resource`) are handled (server answers with `status code` **404** and a human-friendly message)
 4. Errors on the server side that occur during the processing of a request are handled and processed correctly (server answers with `status code` **500** and corresponding human-friendly message)
 5. Value of `port` on which application is running is stored in `.env` file
 6. There are 2 modes of running application (**development** and **production**):
