@@ -5,24 +5,25 @@
 - This is a simple CRUD API using in-memory database underneath.
 - To run the application, clone the repo to your local machine and run `npm i` to install all necessary dependencies.
 - The app uses the following dependencies:
-  - "@tsconfig/node16": "^1.0.3",
-    "@types/mocha": "^9.1.1",
-    "@types/node": "^17.0.42",
-    "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "dotenv": "^16.0.1",
-    "eslint": "^8.17.0",
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.3",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0",
-    "ts-loader": "^9.3.0",
-    "uuid": "^8.3.2",
-    "chai": "^4.3.6" - used for testing
-    "chai-http": "^4.3.0" - used for testing
-    "mocha": "^10.0.0" - used for testing
+  -   `@tsconfig/node16`,
+  -   `@types/mocha`,
+  -   `@types/node`,
+  -   `@types/uuid`,
+  -   `@typescript-eslint/eslint-plugin`,
+  -   `@typescript-eslint/parser`,
+  -   `dotenv`,
+  -   `eslint`,
+  -   `nodemon`,
+  -   `ts-node`,
+  -   `typescript`,
+  -   `webpack`,
+  -   `webpack-cli`,
+  -   `ts-loader`,
+  -   `uuid`,
+  -   `mocha` - used for testing,
+  -   `chai` - used for testing,
+  -   `chai-http` - used for testing
+
 - After the installation, run `npm run start:dev` to run the app in the development mode.
 - After the installation, run `npm run start:prod` to generate the production bundle and run the app in the production mode.
 - There is one test scenario. To run tests, use `npm run test` command.
@@ -73,4 +74,3 @@
     4. We try to update the created record with a `PUT` `api/users/{userId}`request (a response is expected containing an updated object with the same `id`)
     5. With a `DELETE` `api/users/{userId}` request, we delete the created object by `id` (confirmation of successful deletion is expected)
     6. With a `GET` `api/users/{userId}` request, we are trying to get a deleted object by `id` (expected answer is that there is no such user)
-
