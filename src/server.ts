@@ -10,17 +10,17 @@ import { getUsers, getUserById, createUser, updateUser, deleteUser } from './con
 dotenv.config({ path: resolve(cwd(), '.env') });
 
 const server = http.createServer((req, res) => {
-  if (req.url === '/api/users' && req.method === 'GET') {
+  if ((req.url === '/api/users' || req.url === '/api/users/') && req.method === 'GET') {
     getUsers(req, res);
-  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]*/) && req.method === 'GET') {
+  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]{1,}/) && req.method === 'GET') {
     const id = req.url.split('/')[3];
     getUserById(req, res, id);
-  } else if (req.url === '/api/users' && req.method === 'POST') {
+  } else if ((req.url === '/api/users' || req.url === '/api/users/') && req.method === 'POST') {
     createUser(req, res);
-  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]*/) && req.method === 'PUT') {
+  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]{1,}/) && req.method === 'PUT') {
     const id = req.url.split('/')[3];
     updateUser(req, res, id);
-  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]*/) && req.method === 'DELETE') {
+  } else if (req.url?.match(/\/api\/users\/[a-zA-Z0-9]{1,}/) && req.method === 'DELETE') {
     const id = req.url.split('/')[3];
     deleteUser(req, res, id);
   } else {

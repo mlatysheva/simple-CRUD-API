@@ -80,13 +80,11 @@ export const updateUser = async (req: any, res: ServerResponse, id: string) => {
     } else {
       const body = await getPostData(req);
       const { username, age, hobbies } = JSON.parse(body as string);
-      console.dir(body);
       const userData = {
         username: username  || user.username,
         age: age || user.age,
         hobbies: hobbies || user.hobbies,
       }; 
-      console.dir(userData);
 
       const updUser = await update(id, userData);
 
