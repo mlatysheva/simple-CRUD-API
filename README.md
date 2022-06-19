@@ -1,11 +1,12 @@
 # Simple CRUD API
 
-## Description and Installation Guide
+## Description, Installation and Usage Guide
 
 - This is a simple CRUD API using in-memory database underneath.
 - To run the application, clone the repo to your local machine and run `npm i` to install all necessary dependencies.
 - After the installation, run `npm run start:dev` to run the app in the development mode.
 - After the installation, run `npm run start:prod` to generate the production bundle and run the app in the production mode.
+- There is one test scenario. To run tests, use `npm run test` command.
 
 ## Technical requirements
 

@@ -18,8 +18,8 @@ describe('Users', () => {
       age: users[0].age,
       hobbies: users[0].hobbies,
     },
-    testUsername = 'polina',
-    testFields = { age: 15, hobbies: []};
+    testUsername = users[0].username,
+    testFields = { age: users[0].age, hobbies: users[0].hobbies};
 
   // Test for /GET
 
