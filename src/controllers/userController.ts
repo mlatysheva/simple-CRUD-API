@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { create, findAllUsers, findUserById, update, remove } from '../models/userModel';
+import { IUser } from '../types';
 import { getPostData } from '../utils/getPostData';
 import { uuidValidateV4 } from '../utils/uuidValidate';
 
@@ -10,6 +11,8 @@ export const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(users));
   } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error processing your request.' }));
     console.error(`Error getting users: ${error}`);
   }
 }
@@ -29,17 +32,13 @@ export const getUserById = async (req: IncomingMessage, res: ServerResponse, id:
       res.end(JSON.stringify(user));
     }    
   } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error processing your request.' }));
     console.error(`Error getting user with id ${id}: ${error}`);
   }
 }
 
 // @route   POST api/users
-interface IUser {
-  id?: string,
-  username: string;
-  age: number;
-  hobbies: string[];
-}
 
 export const createUser = async (req: any, res: ServerResponse) => {
   try {
@@ -61,12 +60,12 @@ export const createUser = async (req: any, res: ServerResponse) => {
       res.writeHead(201, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(newUser));
     }
-
   } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error processing your request.' }));
     console.error(`Error creating user: ${error}`);
   }
 }
-
 
 // @route   PUT api/users/:id
 export const updateUser = async (req: any, res: ServerResponse, id: string) => {
@@ -95,12 +94,14 @@ export const updateUser = async (req: any, res: ServerResponse, id: string) => {
       return res.end(JSON.stringify(updUser));
     }
   } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error processing your request.' }));
     console.error(`Error updating user with id ${id}: ${error}`);
   }
 }
 
-
 // @route   DELETE api/users/:id
+
 export const deleteUser = async (req: any, res: ServerResponse, id: string) => {
   try {
     const user = await findUserById(id) as IUser;
@@ -116,6 +117,8 @@ export const deleteUser = async (req: any, res: ServerResponse, id: string) => {
       return res.end(JSON.stringify({ message: `User ${id} removed.` }));
     }
   } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error processing your request.' }));
     console.error(`Error deleting user with id ${id}: ${error}`);
   }
 }

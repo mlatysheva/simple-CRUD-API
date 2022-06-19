@@ -7,8 +7,12 @@ const dataFile = './users.json';
 
 export const findAllUsers = () => {
   return new Promise ((resolve, reject) => {
-    const users = readDataFromFile(dataFile);
+    try {
+      const users = readDataFromFile(dataFile);
     resolve(users);
+    } catch (error: any) {
+      reject(new Error(error));
+    }    
   })
 };
 
@@ -34,24 +38,32 @@ export const update = (id: string, user: { username: string; age: number; hobbie
   console.log(`id is ${id}`);
   return new Promise ((resolve, reject) => {
     const users = readDataFromFile(dataFile);
-    // const index = users.findIndex((person) => {
-    //   console.log(`person.id is ${person.id}`);
-    //   console.log(`id is ${id}`);
-    //   console.log(`person.id === id ${person.id === id}`);
-    //   person.id === id;
-    // });
-    // console.log(`index is ${index}`);
-    // console.log(`user is:`);
-    // console.dir(users[index]);
-    // users[index] = { id, ...user};
-    
-    const indexMap = users.map(person => person.id).indexOf(id);
-    console.log(`indexMap is ${indexMap}`);
-    users[indexMap] = { id, ...user};
-    console.log('updated user is:');
-    console.dir(users[indexMap]);
+    console.log(`users are:`);
+    console.dir(users);
+    const index = users.findIndex((u, ind) => {
+      console.log(`person.id is ${u.id}`);
+      console.log(`id is ${id}`);
+      console.log(`person.id === id ${u.id === id}`);
+      if (u.id === id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log(`index is ${index}`);
+    console.log(`user is:`);
+    console.dir(users[index]);
+    users[index] = { id, ...user};
     writeDataToFile(dataFile, users);
-    resolve(users[indexMap]);
+    resolve(users[index]);
+    
+    // const indexMap = users.map(person => person.id).indexOf(id);
+    // console.log(`indexMap is ${indexMap}`);
+    // users[indexMap] = { id, ...user};
+    // console.log('updated user is:');
+    // console.dir(users[indexMap]);
+    // writeDataToFile(dataFile, users);
+    // resolve(users[indexMap]);
   })   
 }
 

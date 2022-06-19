@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 import users from '../../users.json';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -22,9 +21,7 @@ describe('Users', () => {
     testUsername = 'polina',
     testFields = { age: 15, hobbies: []};
 
-  /*
-  * Test for /GET
-  */
+  // Test for /GET
 
   describe('/GET users', () => {
     it('it should GET all users', done => {
@@ -39,9 +36,7 @@ describe('Users', () => {
     });
   });
 
-  /*
-  * Test for /POST
-  */
+  // Test for /POST
 
   describe('/POST a new user', () => {
     it('it should POST a new user ', done => {
@@ -60,9 +55,7 @@ describe('Users', () => {
     });
   });
 
-  /*
-  * Test for /GET:id
-  */
+  // Test for /GET:id
 
   describe('/GET/:id user', () => {
     it('it should GET a user by the given id', done => {
@@ -79,9 +72,9 @@ describe('Users', () => {
         });
     });
   });
-  /*
-  * Test for /PUT:id
-  */
+
+  // Test for /PUT:id
+
   describe('/PUT/:id user', () => {
     it('it should UPDATE the user with the given id', done => {
       chai.request(server)
@@ -99,9 +92,8 @@ describe('Users', () => {
     });
   });
 
-  /*
-  * Test for /DELETE:id
-  */
+  // Test for /DELETE:id
+
   describe('/DELETE/:id user', () => {
     it('it should DELETE the user with the given id', done => {
       chai.request(server)
