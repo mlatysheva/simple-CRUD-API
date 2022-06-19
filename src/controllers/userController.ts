@@ -1,3 +1,4 @@
+import { debug } from 'console';
 import { IncomingMessage, ServerResponse } from 'http';
 import { create, findAllUsers, findUserById, update, remove } from '../models/userModel';
 import { getPostData } from '../utils/getPostData';
@@ -18,12 +19,12 @@ export const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
 export const getUserById = async (req: IncomingMessage, res: ServerResponse, id: string) => {
   try {    
     const user = await findUserById(id);
-    if (!user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found' }));
-    } else if (!(uuidValidateV4(id))) {
+    if (!(uuidValidateV4(id))) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: `User id ${id} is not a valid uuid` }));
+    } else if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
     } else {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(user));
@@ -54,11 +55,13 @@ export const createUser = async (req: any, res: ServerResponse) => {
     if (!username || !age || !hobbies) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: `Fields: username, age and hobbies are required. Please submit all required info.` }));
-    }
-    const newUser = await create(user);
+      return;
+    } else {
+      const newUser = await create(user);
 
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify(newUser));
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(newUser));
+    }
 
   } catch (error) {
     console.error(`Error creating user: ${error}`);
@@ -79,12 +82,13 @@ export const updateUser = async (req: any, res: ServerResponse, id: string) => {
     } else {
       const body = await getPostData(req);
       const { username, age, hobbies } = JSON.parse(body as string);
-
+      console.dir(body);
       const userData = {
         username: username  || user.username,
         age: age || user.age,
         hobbies: hobbies || user.hobbies,
       }; 
+      console.dir(userData);
 
       const updUser = await update(id, userData);
 

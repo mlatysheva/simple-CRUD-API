@@ -13,7 +13,6 @@ export const findAllUsers = () => {
 };
 
 export const findUserById = (id: string) => {
-  console.log(`userId is ${id}`);
   return new Promise ((resolve, reject) => {
     const users = readDataFromFile(dataFile);
     const user = users.find((user: IUser) => user.id === id);
@@ -32,13 +31,27 @@ export const create = (user: { username: string; age: number; hobbies: string[];
 }
 
 export const update = (id: string, user: { username: string; age: number; hobbies: string[]; }) => {
+  console.log(`id is ${id}`);
   return new Promise ((resolve, reject) => {
     const users = readDataFromFile(dataFile);
-    const index = users.findIndex((user) => {
-      user.id === id});
-    users[index] = { id, ...user};
+    // const index = users.findIndex((person) => {
+    //   console.log(`person.id is ${person.id}`);
+    //   console.log(`id is ${id}`);
+    //   console.log(`person.id === id ${person.id === id}`);
+    //   person.id === id;
+    // });
+    // console.log(`index is ${index}`);
+    // console.log(`user is:`);
+    // console.dir(users[index]);
+    // users[index] = { id, ...user};
+    
+    const indexMap = users.map(person => person.id).indexOf(id);
+    console.log(`indexMap is ${indexMap}`);
+    users[indexMap] = { id, ...user};
+    console.log('updated user is:');
+    console.dir(users[indexMap]);
     writeDataToFile(dataFile, users);
-    resolve(users[index]);
+    resolve(users[indexMap]);
   })   
 }
 
