@@ -1,4 +1,7 @@
-export const getRequestData = (request: IncomingMessage): Promise<ICandidate> => {
+import { IncomingMessage } from "http";
+import { IUser } from "../types";
+
+export const getRequestData = (request: IncomingMessage): Promise<IUser> => {
   return new Promise((resolve, reject) => {
     try {
       let body = '';
