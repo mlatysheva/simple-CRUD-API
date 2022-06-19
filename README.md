@@ -4,6 +4,25 @@
 
 - This is a simple CRUD API using in-memory database underneath.
 - To run the application, clone the repo to your local machine and run `npm i` to install all necessary dependencies.
+- The app uses the following dependencies:
+  - "@tsconfig/node16": "^1.0.3",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^17.0.42",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.17.0",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "ts-loader": "^9.3.0",
+    "uuid": "^8.3.2",
+    "chai": "^4.3.6" - used for testing
+    "chai-http": "^4.3.0" - used for testing
+    "mocha": "^10.0.0" - used for testing
 - After the installation, run `npm run start:dev` to run the app in the development mode.
 - After the installation, run `npm run start:prod` to generate the production bundle and run the app in the production mode.
 - There is one test scenario. To run tests, use `npm run test` command.
@@ -11,7 +30,8 @@
 ## Technical requirements
 
 - Task is implemented with Typescript
-- Only `nodemon`, `dotenv`, `cross-env`, `typescript`, `ts-node`, `eslint` and its plugins, `webpack` and its plugins, `prettier`, `uuid`, `@types/*` as well as libraries used for testing were used
+- Only `nodemon`, `dotenv`, `typescript`, `ts-node`, `eslint` and its plugins, `webpack` and its plugins, `uuid`, `@types/*` as well as libraries used for testing were used
+- The libraries and modules used for testing are `mocha`, `chai` and `chai-http`
 - 16 LTS version of Node.js was used
 - Asynchronous API was preferred whenever possible
 
@@ -46,11 +66,11 @@
 6. There are 2 modes of running application (**development** and **production**):
     - The application is run in development mode using `nodemon` (there is a `npm` script `start:dev`)
     - The application is run in production mode (there is a `npm` script `start:prod` that starts the build process and then runs the bundled file)
-7. There could be some tests for API (not less than **3** scenarios). Example of test scenario:
+7. There is one test scenario for API:
     1. Get all records with a `GET` `api/users` request (an empty array is expected)
     2. A new object is created by a `POST` `api/users` request (a response containing newly created record is expected)
     3. With a `GET` `api/user/{userId}` request, we try to get the created  record by its `id` (the created record is expected)
     4. We try to update the created record with a `PUT` `api/users/{userId}`request (a response is expected containing an updated object with the same `id`)
     5. With a `DELETE` `api/users/{userId}` request, we delete the created object by `id` (confirmation of successful deletion is expected)
-    6. With a `GET` `api/users/{userId}` request, we are trying to get a deleted object by `id` (expected answer is that there is no such object)
-8. There could be implemented horizontal scaling for application (there is a `npm` script `start:multi` that starts multiple instances of your application using the Node.js `Cluster` API (equal to the number of logical processor cores on the host machine) with a **load balancer** that distributes requests across them)
+    6. With a `GET` `api/users/{userId}` request, we are trying to get a deleted object by `id` (expected answer is that there is no such user)
+

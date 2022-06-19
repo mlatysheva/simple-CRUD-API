@@ -1,25 +1,54 @@
-import users from '../../users.json';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
+import { readDataFromFile } from '../utils/readDataFromFile';
+import { IUser } from '../types';
+
+const dataFile = '././users.json';
+
+let usersArray = readDataFromFile(dataFile);
+let id: string | undefined, successCode: number, numUsers: number, user: IUser, testUsername: string, testFields: any;
+
+if (usersArray.length > 0) {
+  id = usersArray[0].id,
+  successCode = 200,
+  numUsers = usersArray.length,
+  user = {
+    username: usersArray[0].username,
+    age: usersArray[0].age,
+    hobbies: usersArray[0].hobbies,
+  },
+  testUsername = usersArray[0].username,
+  testFields = { age: usersArray[0].age, hobbies: usersArray[0].hobbies};
+} else {
+  usersArray = [];
+  successCode = 200,
+  numUsers = usersArray.length,
+  user = {
+    username: 'polina',
+    age: 12,
+    hobbies: ['drawing', 'music'],
+  },
+  testUsername = 'polina',
+  testFields = { age: user.age, hobbies: user.hobbies};
+}
 
 const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('Users', () => {
-
   // Consts
-  const id = users[0].id,
-    successCode = 200,
-    numUsers = users.length,
-    user = {
-      username: users[0].username,
-      age: users[0].age,
-      hobbies: users[0].hobbies,
-    },
-    testUsername = users[0].username,
-    testFields = { age: users[0].age, hobbies: users[0].hobbies};
+  // const id = users[0].id,
+  //   successCode = 200,
+  //   numUsers = users.length,
+  //   user = {
+  //     username: users[0].username,
+  //     age: users[0].age,
+  //     hobbies: users[0].hobbies,
+  //   },
+  //   testUsername = users[0].username,
+  //   testFields = { age: users[0].age, hobbies: users[0].hobbies};
 
   // Test for /GET
 
@@ -50,14 +79,15 @@ describe('Users', () => {
           res.body.should.have.property('age');
           res.body.should.have.property('hobbies');
           res.body.should.have.property('id');
+          id = res.body.id;
           done();
         });
     });
   });
 
   // Test for /GET:id
-
-  describe('/GET/:id user', () => {
+  
+  describe('/GET/:id user', () => { 
     it('it should GET a user by the given id', done => {
       chai.request(server)
         .get(`/api/users/${id}`)
@@ -105,5 +135,21 @@ describe('Users', () => {
           done();
         });
     });
+  });
+});
+
+// Test for /GET:id of a deleted user
+  
+describe('/GET/:id user', () => { 
+  it('it should return a message "No such user" ', done => {
+    chai.request(server)
+      .get(`/api/users/${id}`)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.be.a('object');
+        res.body.should.have.property('message').eql('User not found');
+        done();
+      });
   });
 });
