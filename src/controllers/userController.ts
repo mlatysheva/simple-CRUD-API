@@ -1,4 +1,3 @@
-import { debug } from 'console';
 import { IncomingMessage, ServerResponse } from 'http';
 import { create, findAllUsers, findUserById, update, remove } from '../models/userModel';
 import { getPostData } from '../utils/getPostData';
@@ -11,7 +10,7 @@ export const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(users));
   } catch (error) {
-    console.error(`Error receiving users: ${error}`);
+    console.error(`Error getting users: ${error}`);
   }
 }
 
@@ -73,12 +72,12 @@ export const createUser = async (req: any, res: ServerResponse) => {
 export const updateUser = async (req: any, res: ServerResponse, id: string) => {
   try {
     const user = await findUserById(id) as IUser;
-    if (!user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found' }));
-    } else if (!(uuidValidateV4(id))) {
+    if (!(uuidValidateV4(id))) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: `User id ${id} is not a valid uuid` }));
+    } else if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
     } else {
       const body = await getPostData(req);
       const { username, age, hobbies } = JSON.parse(body as string);
@@ -105,12 +104,12 @@ export const updateUser = async (req: any, res: ServerResponse, id: string) => {
 export const deleteUser = async (req: any, res: ServerResponse, id: string) => {
   try {
     const user = await findUserById(id) as IUser;
-    if (!user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found' }));
-    } else if (!(uuidValidateV4(id))) {
+    if (!(uuidValidateV4(id))) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: `User id ${id} is not a valid uuid` }));
+    } else if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
     } else {
       await remove(id);
       res.writeHead(200 , { 'Content-Type': 'application/json' });
