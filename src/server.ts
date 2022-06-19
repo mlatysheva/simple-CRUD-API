@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-//# sourceMappingURL=server.js.map
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import http from 'http';
@@ -30,8 +29,9 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 export default { server };
+// # sourceMappingURL=server.js.map
